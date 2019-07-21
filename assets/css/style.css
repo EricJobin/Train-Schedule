@@ -6,8 +6,11 @@
 }
 table{
     width: 100%;
+}
+th{
     text-align: center;
 }
+
 /* .fucky{
     border: black 1px solid;
 } */

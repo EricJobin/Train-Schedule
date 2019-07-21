@@ -69,6 +69,7 @@ function appendTrain(){ // Function to append the new train to the table
         </tr>`
 
         $("#trainRef").append(newRow);
+        // $("#newTrains").append(newRow);
 }
 
 
@@ -79,27 +80,77 @@ $(document).ready(function() {
     $('#addTrainButton').on("click", function(e) {
         e.preventDefault();
         var input = $('input');
-        console.log('submit clicked');
-        console.log(input);
+        // console.log('submit clicked');
+        // console.log(input);
 
         trainName=inputTrainName.value;
         destination=inputDestination.value;
         firstTrainTime=inputFirstTrainTime.value;
         frequency=inputFrequency.value;
 
-        console.log("firstTrainTime: "+firstTrainTime) //4:05 PM = '16:05' string
+        var newTrainObj = {
+            name: trainName,
+            destination: destination,
+            trainTime: firstTrainTime,
+            freq: frequency,
+        };
+        database.ref().push(newTrainObj);
 
-        input.val('');
+        // console.log("firstTrainTime: "+firstTrainTime) //4:05 PM = '16:05' string
+
+        input.val(''); // Blanks out inputs
 
         appendTrain()
 
         // testvar=firstTrainTime;
 
+        // clickCounter++           // Testing to see if connected to firebase properly
+        // database.ref().set({
+        //     clickCount: clickCounter
+        // });
 
-        clickCounter++
-        database.ref().set({
-            clickCount: clickCounter
-          });
-
+        // database.ref().push({
+        //     description: input[0].value,
+        //     time: Date.now()
+        // });
     });
+
+    database.ref().on("value", function(snapshot) {
+        var data = snapshot.val();
+        // $('<td>').empty();
+        console.log(data);
+
+        var now = moment();
+        var dbKeys = [];
+
+        for (var prop in data) {
+            dbKeys.push(prop);
+        }
+
+        for (var i = 0; i < dbKeys.length; i++) {
+            console.log(data[dbKeys[i]]);
+
+            // var date = moment(data[dbKeys[i]].time);
+
+            console.log(moment(data.time).format());
+
+            // var overdue = now.diff(date, 'minutes');
+
+            // var newToDo = $('<div>')
+            // newToDo.addClass('toDoItem');
+            // var descDiv = $('<div>').text(data[dbKeys[i]].description);
+            // newToDo.append(descDiv);
+            // var overdueDiv = $('<div>').text(overdue + " minutes overdue");
+            // newToDo.append(overdueDiv);
+
+            // $('#trainRef').append(newToDo);
+
+
+
+        }
+
+    }, function(errorObject) {
+        console.log("Errors handled: " + errorObject.code);
+    });
+
 });

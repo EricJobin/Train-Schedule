@@ -22,15 +22,16 @@
     <div class="container">
 
         <div class="row"> <!--row 1-->
-            <div class="col-1"></div>
-            <div class="col-10 ">
+            <!-- <div class="col-1"></div> -->
+            <div class="col-12 ">
                 <div class="card shadow">
                     <div class="card-header">
                         Current Train Schedule
                     </div>
+
                     <div class="card-body">
 
-                        <div class="row"> 
+                        <!-- <div class="row"> will likely remove this, better to use table
                             <div class="col-1"></div>
                             <div class="col-2">Train Name</div> 
                             <div class="col-2">Destination</div> 
@@ -48,51 +49,87 @@
                             <div class="col-2 nextArrival"></div> 
                             <div class="col-2 minutesAway"></div> 
                             <div class="col-1"></div> 
-                        </div> 
+                        </div>  -->
 
+                        <div class="row">
+                            <div class="col-12">
+                                <table>
+                                    <tr>
+                                        <th>Train Name</th>
+                                        <th>Destination</th>
+                                        <th>Frequency (min)</th>
+                                        <th>Next Arrival</th>
+                                        <th>Minutes Away</th>
+                                    </tr>
+
+                                    <tr> <!-- Sample Data Row for testing, remove once deployed -->
+                                        <td>The Orient Express</td>
+                                        <td>Constantinople</td>
+                                        <td>90</td>
+                                        <td>6:00 AM</td>
+                                        <td>35</td>
+                                    </tr>
+
+
+
+                                </table>
+                            </div>
+                        </div> 
                     </div>
+
                 </div>
             </div> 
-            <div class="col-1"></div>
+            <!-- <div class="col-1"></div> -->
         </div> <!--row close-->
 
 
 
 
 
-    <div class="row"> <!--Add Train-->
+   
         <div class="row"> <!--row 1-->
-            <div class="col-1"></div>
-            <div class="col-10">
+            <!-- <div class="col-1"></div> -->
+            <div class="col-12">
 
                 <div class="card shadow ">
-                    <!-- <div class="card-header">
+                     <div class="card-header">
                         Add Train
                     </div>
                     <div class="card-body">
 
                         <form>
-                            <div class="form-group row">
-                                <label for="inputEmail3" class="col-form-label">Email</label>
-                            
-                                <div class="">
-                                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label for="inputTrainName">Train</label>
+                                    <input type="text" class="form-control" id="inputTrainName" placeholder="The Orient Express">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputDestination" class="col-form-label">Destination</label>
+                                    <input type="text" class="form-control" id="inputDestination" placeholder="Constantinople">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputFirstTrainTime" class="col-form-label">First Train Time</label>
+                                    <input type="time" class="form-control" id="inputFirstTrainTime">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputFrequency" class="col-form-label">Frequency (min)</label>
+                                    <input type="number" class="form-control" id="inputFrequency">
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group">
                                 <div class="">
-                                    <button type="submit" class="btn btn-primary">Sign in</button>
+                                    <button type="submit" class="btn btn-primary" id="addTrainButton">Submit</button>
                                 </div>
                             </div>
                         </form>
 
-                    </div> -->
+                    </div>
                 </div>
 
             </div>
-            <div class="col-1"></div>
+            <!-- <div class="col-1"></div> -->
         </div> <!--row close-->
-    </div>
+    
 
  
 

@@ -10,7 +10,7 @@ var database = firebase.database();
 var clickCounter = 0;
 
 database.ref().on("value", function(snapshot) {
-    console.log(snapshot.val());
+    // console.log(snapshot.val());
     clickCounter = snapshot.val().clickCount;
     $("#click-value").text(snapshot.val().clickCount);
   }, function(errorObject) {
@@ -23,32 +23,27 @@ var trainName;
 var destination;
 var firstTrainTime;
 var frequency;
+var nextArrival;
+var timeAway;
+
 
 // var testTime = "04:45";
 // var testfreq = 12;
 
 //Calculate time to next train
 function calcTrainTimes(ftt, frq){
-    // var now = moment();
-    // console.log("current time: "+now.format('LT'));
-    // var b= moment(now).add(55, 'm');
-    // console.log("current time + 55min: "+b.format('LT'));
+    var tFrequency = frq;
+    var firstTrainTimeConverted = moment(ftt, "HH:mm")
+    var diffTime = moment().diff(moment(firstTrainTimeConverted), "minutes");
+    var tRemainder = diffTime % tFrequency;
+    var tMinutesTillTrain = tFrequency - tRemainder;
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
 
-    // console.log("first train: "+ftt);
-    // console.log("frq: "+frq);
-    // var now = moment();
+    nextArrival = nextTrain.format("hh:mm a");
+    timeAway = tMinutesTillTrain;
+    console.log("next Train: "+nextArrival);
+    console.log("Time Left: "+timeAway);
 
-    // if (now >= ftt){
-    //     console.log("overdue")
-    // }
-    // else if (now == ftt){console.log("Due");}
-    // else if(now <= ftt){console.log("early"); }
-    // else{console.log("something fucky");}
-
-
-    // var nextTrain;
-
-    //console.log();
 
 }
 
@@ -57,21 +52,21 @@ function calcTrainTimes(ftt, frq){
 // Train Name	Destination	Frequency (min)	Next Arrival (calculated)	Minutes Away (calculated)
 function appendTrain(){ // Function to append the new train to the table
 
+    calcTrainTimes(firstTrainTime, frequency)
+
     var newRow = `
         <tr><td>${trainName}</td>
         <td>${destination}</td>
-        <td>${frequency}</td>
-        <td>7:00 PM</td>
-        <td>35</td> 
+        <td class ="time">${frequency}</td>
+        <td class ="time">${nextArrival}</td>
+        <td class ="time">${timeAway}</td> 
         </tr>`
 
-        $("#trainRef").append(newRow);
-        // $("#newTrains").append(newRow);
+    $("#trainRef").append(newRow);
 }
 
 
 // var testvar;
-//
 $(document).ready(function() {
 
     $('#addTrainButton').on("click", function(e) {
@@ -94,12 +89,10 @@ $(document).ready(function() {
         // console.log("firstTrainTime: "+firstTrainTime) //4:05 PM = '16:05' string
 
         input.val(''); // Blanks out inputs
-
-        // appendTrain()
     });
 
     database.ref().on("child_added", function(childSnapshot) { //Appends trains in Database to screen
-        console.log(childSnapshot.val());
+        // console.log(childSnapshot.val());
     
         // Store everything into a variable.
         trainName = childSnapshot.val().name;
@@ -111,6 +104,10 @@ $(document).ready(function() {
         if (trainName != undefined){
             appendTrain()
         };
-    });
+    }),
+    function(errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    };
+    
 
 });

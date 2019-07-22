@@ -10,6 +10,9 @@ table{
 th{
     text-align: center;
 }
+.time{
+    text-align: right;
+}
 
 /* .fucky{
     border: black 1px solid;

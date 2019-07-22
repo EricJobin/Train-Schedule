@@ -46,9 +46,6 @@ function calcTrainTimes(ftt, frq){
     // else{console.log("something fucky");}
 
 
-
-
-
     // var nextTrain;
 
     //console.log();
@@ -80,8 +77,6 @@ $(document).ready(function() {
     $('#addTrainButton').on("click", function(e) {
         e.preventDefault();
         var input = $('input');
-        // console.log('submit clicked');
-        // console.log(input);
 
         trainName=inputTrainName.value;
         destination=inputDestination.value;
@@ -100,60 +95,10 @@ $(document).ready(function() {
 
         input.val(''); // Blanks out inputs
 
-        appendTrain()
-
-        // testvar=firstTrainTime;
-
-        // clickCounter++           // Testing to see if connected to firebase properly
-        // database.ref().set({
-        //     clickCount: clickCounter
-        // });
-
-        // database.ref().push({
-        //     description: input[0].value,
-        //     time: Date.now()
-        // });
+        // appendTrain()
     });
 
-    // database.ref().on("value", function(snapshot) {
-    //     var data = snapshot.val();
-    //     // $('<td>').empty();
-    //     console.log(data);
-
-    //     var now = moment();
-    //     var dbKeys = [];
-
-    //     for (var prop in data) {
-    //         dbKeys.push(prop);
-    //     }
-
-    //     for (var i = 0; i < dbKeys.length; i++) {
-    //         console.log(data[dbKeys[i]]);
-
-    //         // var date = moment(data[dbKeys[i]].time);
-
-    //         console.log(moment(data.time).format());
-
-    //         // var overdue = now.diff(date, 'minutes');
-
-    //         // var newToDo = $('<div>')
-    //         // newToDo.addClass('toDoItem');
-    //         // var descDiv = $('<div>').text(data[dbKeys[i]].description);
-    //         // newToDo.append(descDiv);
-    //         // var overdueDiv = $('<div>').text(overdue + " minutes overdue");
-    //         // newToDo.append(overdueDiv);
-
-    //         // $('#trainRef').append(newToDo);
-
-
-
-    //     }
-
-    // }, function(errorObject) {
-    //     console.log("Errors handled: " + errorObject.code);
-    // });
-
-    database.ref().on("child_added", function(childSnapshot) {
+    database.ref().on("child_added", function(childSnapshot) { //Appends trains in Database to screen
         console.log(childSnapshot.val());
     
         // Store everything into a variable.
@@ -162,22 +107,10 @@ $(document).ready(function() {
         firstTrainTime = childSnapshot.val().trainTime;
         frequency = childSnapshot.val().freq;
     
-        // Employee Info
-        console.log(trainName);
-        console.log(destination);
-        console.log(firstTrainTime);
-        console.log(frequency);
-
-    
         // Create the new row
         if (trainName != undefined){
             appendTrain()
         };
     });
-
-
-
-
-
 
 });

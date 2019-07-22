@@ -1,21 +1,7 @@
 // Train Schedule
 
 //Firebase
-
-// Your web app's Firebase configuration
-
-
-
 var database = firebase.database();
-var clickCounter = 0;
-
-database.ref().on("value", function(snapshot) {
-    // console.log(snapshot.val());
-    clickCounter = snapshot.val().clickCount;
-    $("#click-value").text(snapshot.val().clickCount);
-  }, function(errorObject) {
-    console.log("The read failed: " + errorObject.code);
-  });
 
 //Global Variables
 
@@ -25,10 +11,7 @@ var firstTrainTime;
 var frequency;
 var nextArrival;
 var timeAway;
-
-
-// var testTime = "04:45";
-// var testfreq = 12;
+var i=0;
 
 //Calculate time to next train
 function calcTrainTimes(ftt, frq){
@@ -38,18 +21,10 @@ function calcTrainTimes(ftt, frq){
     var tRemainder = diffTime % tFrequency;
     var tMinutesTillTrain = tFrequency - tRemainder;
     var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-
     nextArrival = nextTrain.format("hh:mm a");
     timeAway = tMinutesTillTrain;
-    console.log("next Train: "+nextArrival);
-    console.log("Time Left: "+timeAway);
-
-
 }
 
-// calcTrainTimes(testTime, testfreq)
-
-// Train Name	Destination	Frequency (min)	Next Arrival (calculated)	Minutes Away (calculated)
 function appendTrain(){ // Function to append the new train to the table
 
     calcTrainTimes(firstTrainTime, frequency)
@@ -57,16 +32,14 @@ function appendTrain(){ // Function to append the new train to the table
     var newRow = `
         <tr><td>${trainName}</td>
         <td>${destination}</td>
-        <td class ="time">${frequency}</td>
-        <td class ="time">${nextArrival}</td>
-        <td class ="time">${timeAway}</td> 
+        <td class ="time" id="frq${i}">${frequency}</td>
+        <td class ="time" id="nxArr${i}">${nextArrival}</td>
+        <td class ="time" id="timeAway${i}">${timeAway}</td> 
         </tr>`
 
     $("#trainRef").append(newRow);
 }
 
-
-// var testvar;
 $(document).ready(function() {
 
     $('#addTrainButton').on("click", function(e) {
@@ -85,29 +58,34 @@ $(document).ready(function() {
             freq: frequency,
         };
         database.ref().push(newTrainObj);
-
-        // console.log("firstTrainTime: "+firstTrainTime) //4:05 PM = '16:05' string
-
         input.val(''); // Blanks out inputs
     });
 
     database.ref().on("child_added", function(childSnapshot) { //Appends trains in Database to screen
-        // console.log(childSnapshot.val());
-    
-        // Store everything into a variable.
+
         trainName = childSnapshot.val().name;
         destination = childSnapshot.val().destination;
         firstTrainTime = childSnapshot.val().trainTime;
         frequency = childSnapshot.val().freq;
-    
-        // Create the new row
         if (trainName != undefined){
             appendTrain()
         };
+        i++
     }),
     function(errorObject) {
         console.log("The read failed: " + errorObject.code);
     };
-    
-
 });
+
+//-------------------------------------------------Trying to update in real time -----------------------------------------
+
+// function updateTrains(){
+//     x=0
+//     a=`nxArr${x}`;
+//     b=`frq${x}`;
+//     calcTrainTimes(a, b)
+//     $(`#nextArrival${x}`).text(nextArrival);
+//     $(`#timeAway${x}`).text(timeAway);
+
+//     nextArrival
+// }

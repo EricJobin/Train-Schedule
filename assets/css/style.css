@@ -1,5 +1,11 @@
 /* Train Schedule */
 
+body{
+    background-color: #45526e;
+}
+.row{
+    margin: 20px;
+}
 .card-header{
     color: #fff;
     background-color: #007bff;
